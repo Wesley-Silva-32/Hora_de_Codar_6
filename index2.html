@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qual a nota?</title>
+</head>
+
+<body>
+    
+    <script>
+
+let alunos = [];
+const TOTAL_ALUNOS = 20;
+
+// Função para mostrar o menu principal
+function menuPrincipal() {
+    let opcao;
+    do {
+        opcao = parseInt(prompt("=== MENU ===\n1. Cadastrar Alunos\n2. Pesquisar Aluno por Nome\n3. Exibir Todos os Registros\n4. Sair\nEscolha uma opção:"));
+        switch (opcao) {
+            case 1:
+                cadastrarAlunos();
+                break;
+            case 2:
+                pesquisarAluno();
+                break;
+            case 3:
+                exibirAlunos();
+                break;
+            case 4:
+                alert("Saindo do programa...");
+                break;
+            default:
+                alert("Opção inválida, tente novamente.");
+        }
+    } while (opcao !== 4);
+}
+
+// Função para cadastrar 20 alunos e calcular a média
+function cadastrarAlunos() {
+    if (alunos.length >= TOTAL_ALUNOS) {
+        alert("Já foram cadastrados 20 alunos.");
+        return;
+    }
+    
+    for (let i = alunos.length; i < TOTAL_ALUNOS; i++) {
+        let nome = prompt(`Digite o nome do aluno (${i + 1}/${TOTAL_ALUNOS}):`);
+        let notas = [];
+        for (let j = 1; j <= 4; j++) {
+            let nota;
+            do {
+                nota = parseFloat(prompt(`Digite a nota do ${j}º bimestre para ${nome}:`));
+            } while (isNaN(nota) || nota < 0 || nota > 10);
+            notas.push(nota);
+        }
+
+        let media = calcularMedia(notas);
+        alunos.push({ nome, notas, media });
+    }
+
+    classificarAlunosPorNome();
+    alert("Alunos cadastrados e classificados por nome.");
+}
+
+// Função para calcular a média
+function calcularMedia(notas) {
+    let soma = 0;
+    for (let i = 0; i < notas.length; i++) {
+        soma += notas[i];
+    }
+    return soma / notas.length;
+}
+
+// Função para classificar os alunos por nome
+function classificarAlunosPorNome() {
+    alunos.sort((a, b) => {
+        if (a.nome.toLowerCase() < b.nome.toLowerCase()) return -1;
+        if (a.nome.toLowerCase() > b.nome.toLowerCase()) return 1;
+        return 0;
+    });
+}
+
+// Função para pesquisar um aluno pelo nome e mostrar sua média
+function pesquisarAluno() {
+    let nomePesquisa = prompt("Digite o nome do aluno para pesquisar:");
+    let encontrado = false;
+
+    for (let i = 0; i < alunos.length; i++) {
+        if (alunos[i].nome.toLowerCase() === nomePesquisa.toLowerCase()) {
+            let status = alunos[i].media >= 5 ? "Aprovado" : "Reprovado";
+            alert(`Aluno encontrado:\nNome: ${alunos[i].nome}\nNotas: ${alunos[i].notas.join(", ")}\nMédia: ${alunos[i].media.toFixed(2)}\nSituação: ${status}`);
+            encontrado = true;
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        alert("Aluno não encontrado.");
+    }
+}
+
+// Função para exibir todos os alunos, suas notas, médias e status de aprovação
+function exibirAlunos() {
+    if (alunos.length === 0) {
+        alert("Nenhum aluno cadastrado.");
+        return;
+    }
+
+    let lista = "=== Lista de Alunos ===\n";
+    for (let i = 0; i < alunos.length; i++) {
+        let status = alunos[i].media >= 5 ? "Aprovado" : "Reprovado";
+        lista += `Nome: ${alunos[i].nome}\nNotas: ${alunos[i].notas.join(", ")}\nMédia: ${alunos[i].media.toFixed(2)}\nSituação: ${status}\n\n`;
+    }
+
+    alert(lista);
+}
+
+// Iniciar o programa
+menuPrincipal();
+
+    </script>
+</body>
+</html>

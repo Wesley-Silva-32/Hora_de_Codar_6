@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda</title>
+</head>
+
+<body>
+
+    <script>
+
+let agenda = [];
+let MAX_REGISTROS = 10;
+
+// Função para mostrar o menu e pegar a escolha do usuário
+function menuPrincipal() {
+    let opcao;
+    do {
+        opcao = parseInt(prompt("=== MENU ===\n1. Cadastrar Contatos\n2. Pesquisar por Nome\n3. Classificar por Nome\n4. Exibir Todos os Registros\n5. Sair\nEscolha uma opção:"));
+        switch (opcao) {
+            case 1:
+                cadastrarContatos();
+                break;
+            case 2:
+                pesquisarContato();
+                break;
+            case 3:
+                classificarContatos();
+                break;
+            case 4:
+                exibirContatos();
+                break;
+            case 5:
+                alert("Saindo do programa...");
+                break;
+            default:
+                alert("Opção inválida, tente novamente.");
+        }
+    } while (opcao !== 5);
+}
+
+// Função para cadastrar até 10 contatos
+function cadastrarContatos() {
+    if (agenda.length >= MAX_REGISTROS) {
+        alert("Agenda já possui 10 contatos cadastrados.");
+        return;
+    }
+    for (let i = agenda.length; i < MAX_REGISTROS; i++) {
+        let nome = prompt(`Digite o nome da pessoa (${i + 1}/${MAX_REGISTROS}):`);
+        let endereco = prompt("Digite o endereço:");
+        let telefone = prompt("Digite o telefone:");
+        agenda.push({ nome, endereco, telefone });
+    }
+    alert("Contatos cadastrados com sucesso!");
+}
+
+// Função para pesquisar um contato pelo nome
+function pesquisarContato() {
+    let nomePesquisa = prompt("Digite o nome da pessoa para pesquisar:");
+    let encontrado = false;
+
+    for (let i = 0; i < agenda.length; i++) {
+        if (agenda[i].nome.toLowerCase() === nomePesquisa.toLowerCase()) {
+            alert(`Contato encontrado:\nNome: ${agenda[i].nome}\nEndereço: ${agenda[i].endereco}\nTelefone: ${agenda[i].telefone}`);
+            encontrado = true;
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        alert("Contato não encontrado.");
+    }
+}
+
+// Função para classificar os contatos por nome
+function classificarContatos() {
+    agenda.sort((a, b) => {
+        if (a.nome.toLowerCase() < b.nome.toLowerCase()) return -1;
+        if (a.nome.toLowerCase() > b.nome.toLowerCase()) return 1;
+        return 0;
+    });
+    alert("Contatos classificados por nome.");
+}
+
+// Função para exibir todos os contatos
+function exibirContatos() {
+    if (agenda.length === 0) {
+        alert("Nenhum contato cadastrado.");
+        return;
+    }
+    let lista = "=== Lista de Contatos ===\n";
+    for (let i = 0; i < agenda.length; i++) {
+        lista += `Nome: ${agenda[i].nome}\nEndereço: ${agenda[i].endereco}\nTelefone: ${agenda[i].telefone}\n\n`;
+    }
+    alert(lista);
+}
+
+// Iniciar o programa
+menuPrincipal();
+
+    </script>
+    
+</body>
+</html>

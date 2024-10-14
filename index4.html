@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funcionários</title>
+</head>
+
+<body>
+    
+    <script>
+
+        // Array para armazenar os dados dos 20 funcionários
+let funcionarios = [];
+
+// Função para mostrar o menu principal
+function menuPrincipal() {
+    let opcao;
+    do {
+        opcao = parseInt(prompt("=== MENU ===\n1. Cadastrar Funcionários\n2. Pesquisar Funcionário por Matrícula\n3. Mostrar Funcionários com Salário > R$1000\n4. Mostrar Funcionários com Salário < R$1000\n5. Mostrar Funcionários com Salário = R$1000\n6. Sair\nEscolha uma opção:"));
+        switch (opcao) {
+            case 1:
+                cadastrarFuncionarios();
+                break;
+            case 2:
+                pesquisarPorMatricula();
+                break;
+            case 3:
+                mostrarSalariosAcima1000();
+                break;
+            case 4:
+                mostrarSalariosAbaixo1000();
+                break;
+            case 5:
+                mostrarSalariosIguais1000();
+                break;
+            case 6:
+                alert("Saindo do programa...");
+                break;
+            default:
+                alert("Opção inválida, tente novamente.");
+        }
+    } while (opcao !== 6);
+}
+
+// Função para cadastrar os 20 funcionários
+function cadastrarFuncionarios() {
+    if (funcionarios.length >= 20) {
+        alert("Já foram cadastrados 20 funcionários.");
+        return;
+    }
+
+    for (let i = funcionarios.length; i < 20; i++) {
+        let matricula = parseInt(prompt(`Digite a matrícula do funcionário (${i + 1}/20):`));
+        let nome = prompt(`Digite o nome do funcionário (${i + 1}/20):`);
+        let salario;
+        do {
+            salario = parseFloat(prompt(`Digite o salário de ${nome}:`));
+        } while (isNaN(salario) || salario <= 0);
+        
+        funcionarios.push({ matricula, nome, salario });
+    }
+
+    // Ordena os funcionários por número de matrícula
+    funcionarios.sort((a, b) => a.matricula - b.matricula);
+
+    alert("Cadastro de funcionários finalizado.");
+}
+
+// Função para pesquisar funcionário por matrícula
+function pesquisarPorMatricula() {
+    if (funcionarios.length === 0) {
+        alert("Nenhum funcionário cadastrado.");
+        return;
+    }
+
+    let matricula = parseInt(prompt("Digite o número de matrícula a ser pesquisado:"));
+    let funcionario = funcionarios.find(f => f.matricula === matricula);
+
+    if (funcionario) {
+        alert(`Matrícula: ${funcionario.matricula}\nNome: ${funcionario.nome}\nSalário: R$${funcionario.salario.toFixed(2)}`);
+    } else {
+        alert("Funcionário não encontrado.");
+    }
+}
+
+// Função para mostrar funcionários com salário > R$1000
+function mostrarSalariosAcima1000() {
+    let lista = funcionarios.filter(f => f.salario > 1000);
+
+    if (lista.length === 0) {
+        alert("Nenhum funcionário com salário acima de R$1000.");
+        return;
+    }
+
+    let resultado = "Funcionários com salário acima de R$1000:\n";
+    lista.forEach(f => {
+        resultado += `Matrícula: ${f.matricula}, Nome: ${f.nome}, Salário: R$${f.salario.toFixed(2)}\n`;
+    });
+    
+    alert(resultado);
+}
+
+// Função para mostrar funcionários com salário < R$1000
+function mostrarSalariosAbaixo1000() {
+    let lista = funcionarios.filter(f => f.salario < 1000);
+
+    if (lista.length === 0) {
+        alert("Nenhum funcionário com salário abaixo de R$1000.");
+        return;
+    }
+
+    let resultado = "Funcionários com salário abaixo de R$1000:\n";
+    lista.forEach(f => {
+        resultado += `Matrícula: ${f.matricula}, Nome: ${f.nome}, Salário: R$${f.salario.toFixed(2)}\n`;
+    });
+    
+    alert(resultado);
+}
+
+// Função para mostrar funcionários com salário = R$1000
+function mostrarSalariosIguais1000() {
+    let lista = funcionarios.filter(f => f.salario === 1000);
+
+    if (lista.length === 0) {
+        alert("Nenhum funcionário com salário igual a R$1000.");
+        return;
+    }
+
+    let resultado = "Funcionários com salário igual a R$1000:\n";
+    lista.forEach(f => {
+        resultado += `Matrícula: ${f.matricula}, Nome: ${f.nome}, Salário: R$${f.salario.toFixed(2)}\n`;
+    });
+    
+    alert(resultado);
+}
+
+// Iniciar o programa
+menuPrincipal();
+
+    </script>
+</body>
+</html>
